@@ -86,12 +86,12 @@ namespace Lab_3
 
          //Plus
          private void button1_Click(object sender, EventArgs e){
-             textBox1.Text += " + ";
+             textBox1.Text += "+";
              count++;
          }
          //Minus
          private void button12_Click(object sender, EventArgs e){
-             textBox1.Text += " - ";
+             textBox1.Text += "-";
              count++;
          }
 
@@ -119,7 +119,7 @@ namespace Lab_3
          //Multipy
          private void button13_Click(object sender, EventArgs e)
          {
-             textBox1.Text += " X ";
+             textBox1.Text += "x";
              count++;
          }
 
