@@ -12,6 +12,7 @@ namespace Lab_3
 {
     public partial class Calculator : Form {
         int count = 0;
+       public String finalString = "";            //Saved textbox string for calculation
 
         public Calculator(){
             InitializeComponent();
@@ -95,9 +96,13 @@ namespace Lab_3
          }
 
          //Enter
-         private void button15_Click(object sender, EventArgs e){
-             textBox1.Text += "=";
-             //Do input
+         public void button15_Click(object sender, EventArgs e){
+             finalString = textBox1.Text;
+             
+             //Passing the sub class the strig to do computation
+             Compute compute = new Compute();
+             textBox1.Text = compute.calculate(finalString);
+            
          }
 
          //Power
@@ -149,6 +154,15 @@ namespace Lab_3
              count = 0;
          }
         
+
+        /* 
+         * 
+         * 
+         * Unused methods
+         * 
+         * 
+         **/
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
