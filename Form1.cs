@@ -102,6 +102,7 @@ namespace Lab_3
              //Passing the sub class the strig to do computation
              Compute compute = new Compute();
              textBox1.Text = compute.calculate(finalString);
+            // getResult(finalString);
             
          }
 
@@ -153,7 +154,72 @@ namespace Lab_3
              textBox1.Text = "";
              count = 0;
          }
-        
+
+         //Method to calculate the postfix into the answer
+         /* void getResult(String postFix)
+          {
+              Stack<String> evaluate = new Stack<String>();  
+              int counter = 0;
+              while (counter < postFix.Length-1)
+              {
+                  Console.WriteLine("Working on element: " + postFix[counter]);
+                  //If its a number, push it to the stack
+                  if ((postFix[counter] == '1') || (postFix[counter] == '2') || (postFix[counter] == '3') || (postFix[counter] == '4') ||
+                      (postFix[counter] == '5') || (postFix[counter] == '6') || (postFix[counter] == '7') || (postFix[counter] == '8') ||
+                      (postFix[counter] == '9') || (postFix[counter] == '0') || (postFix[counter] == '.'))
+                  {
+                     
+                      evaluate.Push(postFix[counter].ToString());
+                      Console.WriteLine("Adding nubmer to evaluate stack: " + evaluate.Peek());
+                      counter++;
+                  }
+                  else
+                  {
+                      Console.WriteLine("Count is: " + counter);
+                      Console.WriteLine("Popping nubmer from evaluate stack: " + evaluate.Peek());
+                      String b = evaluate.Pop();
+                      String a = evaluate.Pop();
+                      String computation = result(b,a,postFix[counter].ToString());
+                      evaluate.Push(computation);
+                     counter++;
+                  }
+                  Console.WriteLine("Got through loop: " +counter);
+              }
+              Console.WriteLine("Reached end of stack last number: " + evaluate.Pop());
+          }
+          * */
+         String result(String d, String c, String current)
+         {
+             double a = Double.Parse(c);
+             double b = Double.Parse(d);
+             if (current.Equals("^"))
+             {
+                 return Math.Pow(a, b).ToString();
+             }
+             else if (current.Equals("x"))
+             {
+                 return ((a * b).ToString());
+             }
+             else if (current.Equals("/"))
+             {
+                 return ((a / b).ToString());
+             }
+             else if (current.Equals("+"))
+             {
+                 return ((a + b).ToString());
+             }
+             else if (current.Equals("-"))
+             {
+                 return ((a - b).ToString());
+             }
+
+             else
+             {
+                 textBox1.Text = "Error";
+                 return "Error";
+             }
+
+         }
 
         /* 
          * 

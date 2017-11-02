@@ -7,48 +7,57 @@ namespace Lab_3
 {
     public class Compute : Calculator
     {
-       public String calculate(String result)
+
+        public String calculate(String result)
         {
-           int totalCount = 0;                              //Keeps track of string traversal location
-           String curNum = "";                              //String holding the number that the traversal is at
-           Stack<String> operations = new Stack<String>();      //Stack created for holding the operations
-           LinkedList<String> numList = new LinkedList<String>(); //Linked list holding each number in a link
-           while (totalCount < result.Length)                    //Traversing string 
+            int totalCount = 0;                              //Keeps track of string traversal location
+            String curNum = "";                              //String holding the number that the traversal is at
+            Stack<String> operations = new Stack<String>();      //Stack created for holding the operations
+            LinkedList<String> numList = new LinkedList<String>(); //Linked list holding each number in a link
+            while (totalCount < result.Length)                    //Traversing string 
             {
-                
+
                 //Allows integers and decimal to be added to the number string
                 if ((result[totalCount] == '1') || (result[totalCount] == '2') || (result[totalCount] == '3') || (result[totalCount] == '4') ||
                     (result[totalCount] == '5') || (result[totalCount] == '6') || (result[totalCount] == '7') || (result[totalCount] == '8') ||
-                    (result[totalCount] == '9') || (result[totalCount] == '0') || (result[totalCount] == '.')){
+                    (result[totalCount] == '9') || (result[totalCount] == '0') || (result[totalCount] == '.'))
+                {
                     curNum += result[totalCount];
                     Console.WriteLine("Adding number to string: " + result[totalCount]);
                     totalCount++;
-                   
+
                 }
 
                 //Adds operations to the stack
-                else {
-                    //Makes sure a parenthesis isnt first
+                else
+                {
+                    //Makes sure operation isnt first in the string, and then adds the number to the linked list
                     if (curNum != "")
                     {
                         Console.WriteLine("Adding number to list: " + curNum);
                         numList.AddLast(curNum);                //Current num to linkList
                         curNum = "";                            //Resets the current number string for next integer
                     }
+
+                    //Checks to see if we have reached a right parenthesis, and if so do not add to the stack
+                    //but pop off all prior operations and add them to the linked last
                     if (result[totalCount] == ')')
-                    {   
+                    {
                         while (operations.Peek() != "(")   //Continutes to pop the stack until the previous parentheis
                         {                                    //is found
-                                Console.WriteLine("Adding operation to list: " + operations.Peek());
-                                numList.AddLast(operations.Pop());
-                         
+                            Console.WriteLine("Adding operation to list: " + operations.Peek());
+                            numList.AddLast(operations.Pop());
+
                         }
                         operations.Pop();                   //Gets rid of the first parenthesis
-                        totalCount++;                       //Moving past the parenthesis
+                        totalCount++;                       //Moving past the parenthesis on the string 
                     }
                     //Only adds operation to stack if its not last parenthesis
                     else
                     {
+
+                        //Checks to see if the operation is the left parenthesis and automatically adds to the stack
+                        //if it is
                         Console.WriteLine("Checking operation to stack: " + result[totalCount]);
                         if (result[totalCount] == '(')
                         {
@@ -56,6 +65,8 @@ namespace Lab_3
                             operations.Push(result[totalCount].ToString());
                             totalCount++;
                         }
+                        //As long as the stack isnt empty, we want to compare the prior elements on the stack to properly
+                        //evaluate where the operation belongs
                         else if (operations.Count != 0)
                         {
                             //Pops the less precedence operations off the stack and onto the linkedList
@@ -68,13 +79,13 @@ namespace Lab_3
                             {
                                 Console.WriteLine("Popping off operation and adding to list: " + operations.Peek());
                                 numList.AddLast(operations.Pop());
-                                
-                                if (operations.Count != 0)                  //Makes sure there are prior operations on the stack
+
+                                if (operations.Count != 0)         //Makes sure there are prior operations on the stack
                                 {
                                     previous = checkPrecedence(operations.Peek());
                                 }
                                 else
-                                {                                           //If there are no prior operations on stack, exit loop
+                                {                                  //If there are no prior operations on stack, exit loop
                                     previous = 4;
                                 }
                             }
@@ -84,9 +95,10 @@ namespace Lab_3
                             operations.Push(result[totalCount].ToString()); //Puts the string of current operator into the stack
                             totalCount++;
                         }
+
+                        //Adds the current opperation onto the stack since there is no other operations on the stack
                         else
                         {
-                            //Adds the current opperation onto the stack since there is no other operations on the stack
                             Console.WriteLine("Pushing operation: " + result[totalCount].ToString());
                             operations.Push(result[totalCount].ToString()); //Puts the string of current operator into the stack
                             totalCount++;
@@ -94,22 +106,23 @@ namespace Lab_3
                     }
                 }
             }
-           //Adding the last number into the linked list
-           numList.AddLast(curNum);
-           while(operations.Count != 0){
 
-               numList.AddLast(operations.Pop());
-           }
-           //String temp = numList.First.Value;
-           //Console.WriteLine("The link list start is: " + temp);
-           String finalResult = "";
-           Console.WriteLine("Linked List data: ");
-           foreach (String ch in numList)
-           {
-               Console.Write(ch + " ");
-               finalResult += ch + " ";
-              
-           }
+            //Adding the last operations on the stack to the linked list
+            numList.AddLast(curNum);
+            while (operations.Count != 0)
+            {
+                numList.AddLast(operations.Pop());
+            }
+
+            //Printing the reverse polish notation onto the calculator
+            String finalResult = "";
+            Console.WriteLine("Linked List data: ");
+
+            foreach (String ch in numList)
+            {
+                Console.Write(ch + " ");
+                finalResult += ch;
+            }
             return finalResult;
         }
         //Returns numeric value of the opperand to decide presedence
